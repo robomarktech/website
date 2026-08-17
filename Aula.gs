@@ -35,6 +35,7 @@ function doGet(e) {
         tema: item.tema || "Sesión del laboratorio",
         descripcion: item.descripcion || "",
         meetUrl: item.meeturl || "",
+        calendarUrl: item.calendarurl || "",
         materialUrl: item.materialurl || "",
         estado: estadoAutomatico || item.estado || "Programada",
         inicioISO: inicioISO ? inicioISO.toISOString() : "",
@@ -111,6 +112,13 @@ function normalizeHeader(value) {
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]/g, "");
 }
+
+function jsonResponse(data) {
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 
 function jsonResponse(data) {
   return ContentService
