@@ -16,6 +16,8 @@ import {
   FolderOpen,
   ExternalLink,
   FileText,
+  CheckCircle2,
+  Clock3,
 } from "lucide-react";
 
 
@@ -676,6 +678,300 @@ function AulaLaboratorioPage() {
   );
 }
 
+const trainingLevels = [
+  {
+    id: "principiante",
+    name: "Nivel principiante",
+    duration: "8 horas",
+    colombiaRegularPrice: "$299.000 COP",
+    colombiaPrice: "$249.000 COP",
+    internationalRegularPrice: "US$219",
+    internationalPrice: "US$179",
+    paypalUrl: "https://www.paypal.com/ncp/payment/62RYR5F8KX5BN",
+    description:
+      "Comprende qué es la inteligencia artificial y aprende a utilizarla de forma clara, segura y responsable.",
+    topics: [
+      "Alfabetización en inteligencia artificial",
+      "Prompts claros y efectivos",
+      "Introducción a la IA generativa",
+      "Riesgos, sesgos, privacidad y ética",
+    ],
+  },
+  {
+    id: "intermedio",
+    name: "Nivel intermedio",
+    duration: "13 horas",
+    colombiaRegularPrice: "$469.000 COP",
+    colombiaPrice: "$399.000 COP",
+    internationalRegularPrice: "US$349",
+    internationalPrice: "US$289",
+    paypalUrl: "https://www.paypal.com/ncp/payment/NQB6A58WTKMLJ",
+    description:
+      "Avanza desde los fundamentos hasta el diseño, evaluación y aplicación práctica de soluciones con IA.",
+    topics: [
+      "Machine learning, datos y redes neuronales",
+      "Preparación, entrenamiento y evaluación de modelos",
+      "IA generativa para software e IBM Granite",
+      "Texto a voz con IBM Watson",
+    ],
+  },
+  {
+    id: "avanzado",
+    name: "Nivel avanzado",
+    duration: "4 horas",
+    colombiaRegularPrice: "$219.000 COP",
+    colombiaPrice: "$179.000 COP",
+    internationalRegularPrice: "US$189",
+    internationalPrice: "US$159",
+    paypalUrl: "https://www.paypal.com/ncp/payment/ZHJ52F2LHDH6A",
+    description:
+      "Profundiza en conceptos modernos de entrenamiento y adaptación de modelos sin exigir matemáticas avanzadas.",
+    topics: [
+      "Transformers",
+      "Descenso de gradiente",
+      "Cómo mejora un modelo durante el entrenamiento",
+      "Prompting y prompt tuning",
+    ],
+  },
+];
+
+function TrainingShell({ children }) {
+  return (
+    <main className="min-h-screen bg-[#07111f] text-white">
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <a
+          href="/"
+          className="inline-flex items-center text-sm font-semibold text-cyan-400 hover:text-cyan-300"
+        >
+          ← Volver a ROBOMARKTECH
+        </a>
+        {children}
+      </div>
+    </main>
+  );
+}
+
+function TrainingRegionPage({ region }) {
+  const isColombia = region === "colombia";
+  const packagePrice = isColombia ? "$649.000 COP" : "US$499";
+  const packageRegularPrice = isColombia ? "$769.000 COP" : "US$599";
+  const packagePaypalUrl = "https://www.paypal.com/ncp/payment/QAUTHGHLLGWCW";
+  const paymentProvider = isColombia ? "Wompi" : "PayPal";
+
+  const whatsappText = encodeURIComponent(
+    `Hola, quiero información sobre la capacitación en IA para ${
+      isColombia ? "Colombia" : "Estados Unidos/internacional"
+    }.`
+  );
+
+  return (
+    <TrainingShell>
+      <header className="py-12 text-center">
+        <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-cyan-400">
+          {isColombia ? "Tarifas para Colombia" : "Programa para Estados Unidos"}
+        </p>
+        <h1 className="mb-5 text-4xl font-black md:text-6xl">
+          Capacitación en Inteligencia Artificial
+        </h1>
+        <p className="mx-auto max-w-3xl text-lg leading-8 text-gray-300">
+          Elige un nivel o completa el programa de 25 horas. Cada nivel incluye
+          ejercicios, evaluación y aplicación práctica.
+        </p>
+        <p className="mx-auto mt-5 max-w-3xl text-sm font-semibold text-cyan-300">
+          Precio de lanzamiento válido hasta el 30 de septiembre de 2026 o hasta
+          agotar los cupos disponibles, lo que ocurra primero.
+        </p>
+      </header>
+
+      <section className="grid gap-6 lg:grid-cols-3">
+        {trainingLevels.map((level) => {
+          const price = isColombia
+            ? level.colombiaPrice
+            : level.internationalPrice;
+          const regularPrice = isColombia
+            ? level.colombiaRegularPrice
+            : level.internationalRegularPrice;
+
+          return (
+            <article
+              key={level.id}
+              className="flex rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-[#0d1b2a] to-[#10263c] p-7"
+            >
+              <div className="flex w-full flex-col">
+                <div className="mb-5 flex items-center justify-between gap-3">
+                  <span className="rounded-full bg-cyan-400/15 px-4 py-2 text-xs font-bold uppercase tracking-wide text-cyan-300">
+                    {level.name}
+                  </span>
+                  <span className="inline-flex items-center gap-2 text-sm text-gray-300">
+                    <Clock3 className="h-4 w-4" /> {level.duration}
+                  </span>
+                </div>
+
+                <p className="mb-5 leading-7 text-gray-300">{level.description}</p>
+
+                <ul className="mb-7 space-y-3">
+                  {level.topics.map((topic) => (
+                    <li key={topic} className="flex gap-3 text-sm text-gray-200">
+                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" />
+                      {topic}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-auto border-t border-cyan-900 pt-5">
+                  <p className="text-sm text-gray-400">
+                    Precio regular: <span className="line-through">{regularPrice}</span>
+                  </p>
+                  <p className="text-3xl font-black">{price}</p>
+                  <p className="text-xs font-semibold text-cyan-300">
+                    Precio de lanzamiento
+                  </p>
+                  <p className="mb-5 text-xs text-gray-400">
+                    Pago mediante {paymentProvider}
+                  </p>
+                  {isColombia ? (
+                    <span className="block cursor-not-allowed rounded-full bg-gray-700 px-5 py-3 text-center font-bold text-gray-300">
+                      Inscripciones próximamente
+                    </span>
+                  ) : (
+                    <a
+                      href={level.paypalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 px-5 py-3 text-center font-bold text-white hover:from-cyan-400 hover:to-blue-500"
+                    >
+                      Inscribirme y pagar
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </section>
+
+      <section className="mt-8 rounded-3xl border border-cyan-400/50 bg-gradient-to-r from-cyan-950/70 to-blue-950/70 p-8 md:flex md:items-center md:justify-between md:gap-8">
+        <div>
+          <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-cyan-300">
+            Mejor valor
+          </p>
+          <h2 className="mb-3 text-3xl font-black">Programa completo</h2>
+          <p className="max-w-2xl text-gray-300">
+            Acceso a los tres niveles, 25 horas de formación y proyecto
+            integrador.
+          </p>
+        </div>
+        <div className="mt-6 shrink-0 md:mt-0 md:text-right">
+          <p className="text-sm text-gray-400">
+            Precio regular: <span className="line-through">{packageRegularPrice}</span>
+          </p>
+          <p className="text-4xl font-black">{packagePrice}</p>
+          <p className="text-xs font-semibold text-cyan-300">
+            Precio de lanzamiento
+          </p>
+          <p className="mb-4 text-xs text-gray-400">Pago mediante {paymentProvider}</p>
+          {isColombia ? (
+            <span className="inline-block cursor-not-allowed rounded-full bg-gray-700 px-6 py-3 font-bold text-gray-300">
+              Inscripciones próximamente
+            </span>
+          ) : (
+            <a
+              href={packagePaypalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 px-6 py-3 font-bold text-white hover:from-cyan-400 hover:to-blue-500"
+            >
+              Inscribirme al programa completo
+            </a>
+          )}
+        </div>
+      </section>
+
+      <section className="mt-10 rounded-3xl border border-cyan-900 bg-[#0d1b2a] p-8 text-center">
+        <h2 className="mb-3 text-2xl font-bold">¿Tienes preguntas?</h2>
+        <p className="mb-6 text-gray-300">
+          Escríbenos para recibir información sobre modalidad, fechas y cupos.
+        </p>
+        <a
+          href={`https://wa.me/${phoneNumber}?text=${whatsappText}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-6 py-3 font-bold hover:bg-emerald-400"
+        >
+          <MessageCircle className="h-5 w-5" /> Consultar por WhatsApp
+        </a>
+      </section>
+
+    </TrainingShell>
+  );
+}
+
+function TrainingConfirmationPage() {
+  const confirmationMessage = encodeURIComponent(
+    "Hola, realicé el pago de una capacitación en inteligencia artificial. Quiero confirmar mi inscripción y enviar los datos del participante."
+  );
+
+  return (
+    <TrainingShell>
+      <section className="mx-auto max-w-3xl py-16 text-center">
+        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400">
+          <CheckCircle2 className="h-10 w-10" />
+        </div>
+        <p className="mb-3 text-sm font-bold uppercase tracking-[0.25em] text-cyan-400">
+          Solicitud recibida
+        </p>
+        <h1 className="mb-5 text-4xl font-black md:text-6xl">
+          Gracias por tu inscripción
+        </h1>
+        <p className="mx-auto max-w-2xl text-lg leading-8 text-gray-300">
+          Tu proveedor de pagos procesará la transacción. ROBOMARKTECH verificará
+          su estado antes de confirmar definitivamente tu cupo.
+        </p>
+      </section>
+
+      <section className="mx-auto max-w-3xl rounded-3xl border border-cyan-500/30 bg-[#0d1b2a] p-8">
+        <h2 className="mb-6 text-2xl font-bold">Próximos pasos</h2>
+        <ol className="space-y-5 text-gray-300">
+          <li className="flex gap-4">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-500/15 font-bold text-cyan-300">1</span>
+            Conserva el comprobante o correo emitido por PayPal o Wompi.
+          </li>
+          <li className="flex gap-4">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-500/15 font-bold text-cyan-300">2</span>
+            Escríbenos por WhatsApp con tu nombre completo, correo y nivel adquirido.
+          </li>
+          <li className="flex gap-4">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cyan-500/15 font-bold text-cyan-300">3</span>
+            Después de verificar el pago recibirás la confirmación del cupo y las instrucciones de acceso.
+          </li>
+        </ol>
+
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a
+            href={`https://wa.me/${phoneNumber}?text=${confirmationMessage}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3 font-bold hover:bg-emerald-400"
+          >
+            <MessageCircle className="h-5 w-5" /> Confirmar por WhatsApp
+          </a>
+          <a
+            href="/capacitacion-ia"
+            className="inline-flex flex-1 items-center justify-center rounded-full border border-cyan-500/50 px-6 py-3 font-bold text-cyan-200 hover:bg-cyan-500/10"
+          >
+            Volver a capacitación
+          </a>
+        </div>
+      </section>
+
+      <p className="mx-auto mt-6 max-w-3xl text-center text-xs leading-5 text-gray-500">
+        Esta página no constituye por sí sola un comprobante de pago ni garantiza
+        la aprobación de la transacción.
+      </p>
+    </TrainingShell>
+  );
+}
+
 function App() {
   return (
     <Router>
@@ -707,6 +1003,22 @@ function App() {
         <Route path="/contact" element={<ContactRedirect />} />
         <Route path="/lab-ia" element={<LaboratorioPage />} />
         <Route path="/lab-ia/aula" element={<AulaLaboratorioPage />} />
+        <Route
+          path="/capacitacion-ia"
+          element={<TrainingRegionPage region="internacional" />}
+        />
+        <Route
+          path="/capacitacion-ia/colombia"
+          element={<TrainingRegionPage region="colombia" />}
+        />
+        <Route
+          path="/capacitacion-ia/internacional"
+          element={<TrainingRegionPage region="internacional" />}
+        />
+        <Route
+          path="/capacitacion-ia/confirmacion"
+          element={<TrainingConfirmationPage />}
+        />
 
         <Route path="*" element={<MainWebsite />} />
 
