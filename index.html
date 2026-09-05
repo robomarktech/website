@@ -933,10 +933,34 @@
     }
 
     const filename = `crucigrama-capacidades-fisicas-${slugify(playerName)}.pdf`;
+
+    function browserDownload() {
+      try {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 4000);
+        pdfStatus.textContent = "PDF descargado.";
+      } catch (e2) {
+        pdfStatus.textContent = "No se pudo descargar el PDF automáticamente. Usa Ctrl+P (Cmd+P en Mac) e imprime como PDF.";
+      }
+    }
+
+    // Inside a published Claude artifact, use the platform's save prompt.
+    // Outside it (e.g. hosted on your own site / GitHub Pages), window.claude
+    // does not exist, so fall back to a normal browser download.
+    if (!window.claude || !window.claude.use) {
+      browserDownload();
+      return;
+    }
+
     try {
-      if (!window.claude || !window.claude.use) throw { code: "unavailable" };
       const downloads = await window.claude.use("downloads");
-      if (!downloads) throw { code: "unavailable" };
+      if (!downloads) { browserDownload(); return; }
       const result = await downloads.save({ filename, data: blob });
       pdfStatus.textContent = result.status === "saved"
         ? "PDF guardado correctamente."
@@ -947,7 +971,7 @@
       } else if (err && err.code === "rate_limited") {
         pdfStatus.textContent = "Ya hay una solicitud de guardado en curso, espera un momento e inténtalo de nuevo.";
       } else {
-        pdfStatus.textContent = "No se pudo guardar el PDF automáticamente aquí. Usa Ctrl+P (Cmd+P en Mac) e imprime como PDF.";
+        browserDownload();
       }
     }
   }
