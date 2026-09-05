@@ -182,6 +182,11 @@
     margin:0 auto;
     border:2px solid var(--ink);
   }
+  @media (max-width:420px){
+    body{padding:12px;}
+    .board-frame{padding:8px;}
+    .grid{--cell:clamp(22px,7vw,26px);gap:1px;}
+  }
   .cell{
     position:relative;
     width:var(--cell);
@@ -450,7 +455,7 @@
       <div class="board-frame">
         <div class="grid" id="grid"></div>
       </div>
-      <p class="board-note">Consejo: doble clic en una casilla para alternar entre horizontal y vertical.</p>
+      <p class="board-note">Consejo: toca una pista para ubicarla; toca dos veces la misma casilla para alternar entre horizontal y vertical.</p>
       <div class="scoreboard">
         <div class="tile"><span class="value" id="scoreWords">0/10</span><span class="label">Palabras</span></div>
         <div class="tile"><span class="value" id="scoreLetters">0/83</span><span class="label">Letras</span></div>
@@ -562,6 +567,10 @@
         const input = document.createElement("input");
         input.maxLength = 1;
         input.autocomplete = "off";
+        input.autocapitalize = "characters";
+        input.setAttribute("autocorrect", "off");
+        input.spellcheck = false;
+        input.inputMode = "text";
         input.setAttribute("aria-label", "casilla " + key);
         cellEl.appendChild(input);
         inputByCell.set(key, {el: input, cell: cellEl, data});
