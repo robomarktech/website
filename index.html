@@ -1,0 +1,957 @@
+<title>Crucigrama de Capacidades Físicas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  :root{
+    --bg:#F1F2EE;
+    --surface:#FFFFFF;
+    --surface-2:#E6E8E1;
+    --ink:#16222E;
+    --ink-muted:#56636F;
+    --line:#CBCFC5;
+    --block:#2B3540;
+    --accent-cond:#D9531E;
+    --accent-cond-tint:#F6DFD2;
+    --accent-coord:#1E7A6F;
+    --accent-coord-tint:#D8ECE9;
+    --correct:#2E7D32;
+    --incorrect:#C0392B;
+    --board-bg:#12181F;
+    --board-fg:#FF9D6E;
+    --shadow:0 1px 2px rgba(22,34,46,.10);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0D141C;
+      --surface:#161F29;
+      --surface-2:#1D2731;
+      --ink:#ECEFF2;
+      --ink-muted:#93A1AC;
+      --line:#2B3A47;
+      --block:#070B10;
+      --accent-cond:#FF7A45;
+      --accent-cond-tint:#3A2418;
+      --accent-coord:#4FD1BE;
+      --accent-coord-tint:#123330;
+      --correct:#5CC26A;
+      --incorrect:#FF6B5E;
+      --board-bg:#05080B;
+      --board-fg:#FF9D6E;
+      --shadow:0 1px 3px rgba(0,0,0,.45);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0D141C;
+    --surface:#161F29;
+    --surface-2:#1D2731;
+    --ink:#ECEFF2;
+    --ink-muted:#93A1AC;
+    --line:#2B3A47;
+    --block:#070B10;
+    --accent-cond:#FF7A45;
+    --accent-cond-tint:#3A2418;
+    --accent-coord:#4FD1BE;
+    --accent-coord-tint:#123330;
+    --correct:#5CC26A;
+    --incorrect:#FF6B5E;
+    --board-bg:#05080B;
+    --board-fg:#FF9D6E;
+    --shadow:0 1px 3px rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Public Sans', system-ui, sans-serif;
+    padding:clamp(16px,4vw,40px);
+  }
+  .wrap{max-width:1180px;margin:0 auto;}
+
+  header{margin-bottom:22px;}
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-muted);
+    margin:0 0 6px;
+  }
+  h1{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.01em;
+    font-size:clamp(1.6rem,3.6vw,2.5rem);
+    margin:0 0 10px;
+    text-wrap:balance;
+  }
+  .lede{
+    max-width:62ch;
+    color:var(--ink-muted);
+    font-size:.98rem;
+    line-height:1.55;
+    margin:0 0 14px;
+  }
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 18px;
+    align-items:center;
+    font-size:.85rem;
+    color:var(--ink-muted);
+  }
+  .legend .dot{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .legend .swatch{width:11px;height:11px;border-radius:2px;display:inline-block;}
+  .swatch.cond{background:var(--accent-cond);}
+  .swatch.coord{background:var(--accent-coord);}
+
+  .idcard{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+    gap:0;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    margin:18px 0 20px;
+    overflow:hidden;
+  }
+  .idcard .field{
+    padding:10px 16px;
+    border-left:1px solid var(--line);
+  }
+  .idcard .field:first-child{border-left:0;}
+  .idcard .field-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.62rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-muted);
+    display:block;
+    margin-bottom:3px;
+  }
+  .idcard .field-value{
+    font-size:.88rem;
+    font-weight:600;
+    line-height:1.35;
+  }
+
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(0,auto) minmax(280px,1fr);
+    gap:28px;
+    align-items:start;
+    margin-top:26px;
+  }
+  @media (max-width:880px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  .puzzle-col{
+    position:sticky;
+    top:16px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  @media (max-width:880px){
+    .puzzle-col{position:static;}
+  }
+
+  .board-frame{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px;
+    box-shadow:var(--shadow);
+    overflow-x:auto;
+  }
+  .grid{
+    --cell:clamp(26px,3.6vw,34px);
+    display:grid;
+    gap:2px;
+    background:var(--line);
+    width:max-content;
+    margin:0 auto;
+    border:2px solid var(--ink);
+  }
+  .cell{
+    position:relative;
+    width:var(--cell);
+    height:var(--cell);
+    background:var(--surface);
+  }
+  .cell.blocked{background:var(--block);}
+  .cell .num{
+    position:absolute;
+    top:1px;
+    left:2px;
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:calc(var(--cell) * .28);
+    color:var(--ink-muted);
+    line-height:1;
+    pointer-events:none;
+  }
+  .cell input{
+    width:100%;
+    height:100%;
+    border:0;
+    background:transparent;
+    text-align:center;
+    text-transform:uppercase;
+    font-family:'Oswald', sans-serif;
+    font-weight:600;
+    font-size:calc(var(--cell) * .5);
+    color:var(--ink);
+    padding:0;
+    caret-color:var(--accent-cond);
+  }
+  .cell input:focus{outline:2px solid var(--accent-cond);outline-offset:-2px;}
+  .cell.active-cond input{background:var(--accent-cond-tint);}
+  .cell.active-coord input{background:var(--accent-coord-tint);}
+  .cell input.correct{color:var(--correct);}
+  .cell input.incorrect{color:var(--incorrect);}
+
+  .board-note{
+    font-size:.78rem;
+    color:var(--ink-muted);
+    text-align:center;
+  }
+
+  .scoreboard{
+    display:flex;
+    gap:2px;
+    background:var(--board-bg);
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .scoreboard .tile{
+    flex:1;
+    padding:10px 12px;
+    text-align:center;
+  }
+  .scoreboard .tile + .tile{border-left:1px solid rgba(255,255,255,.08);}
+  .scoreboard .value{
+    font-family:'JetBrains Mono', monospace;
+    font-variant-numeric:tabular-nums;
+    font-weight:700;
+    font-size:1.25rem;
+    color:var(--board-fg);
+    display:block;
+  }
+  .scoreboard .label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.62rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:#9FB0BC;
+  }
+
+  .controls{display:flex;flex-wrap:wrap;gap:10px;}
+  button{
+    font-family:'Public Sans', sans-serif;
+    font-weight:600;
+    font-size:.86rem;
+    padding:9px 16px;
+    border-radius:7px;
+    cursor:pointer;
+    border:1px solid var(--line);
+    background:var(--surface);
+    color:var(--ink);
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  button:hover{border-color:var(--accent-cond);}
+  button:focus-visible{outline:2px solid var(--accent-cond);outline-offset:2px;}
+  button.primary{
+    background:var(--ink);
+    color:var(--bg);
+    border-color:var(--ink);
+  }
+  button.primary:hover{opacity:.88;}
+  button.danger.confirming{
+    background:var(--incorrect);
+    color:#fff;
+    border-color:var(--incorrect);
+  }
+
+  .clues{display:flex;flex-direction:column;gap:22px;}
+  .clue-group h2{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.05em;
+    font-size:1rem;
+    margin:0 0 10px;
+    padding-bottom:8px;
+    border-bottom:1px solid var(--line);
+  }
+  .clue-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+  .clue-item{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:8px 9px;
+    border-radius:7px;
+    cursor:pointer;
+    border:1px solid transparent;
+  }
+  .clue-item:hover{background:var(--surface-2);}
+  .clue-item.active{
+    border-color:var(--line);
+    background:var(--surface);
+    box-shadow:var(--shadow);
+  }
+  .clue-num{
+    font-family:'Oswald', sans-serif;
+    font-weight:700;
+    font-size:.85rem;
+    color:var(--ink-muted);
+    min-width:1.4em;
+  }
+  .clue-body{flex:1;font-size:.88rem;line-height:1.5;}
+  .clue-tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:.6rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    padding:2px 6px;
+    border-radius:4px;
+    white-space:nowrap;
+    align-self:center;
+  }
+  .clue-tag.condicional{background:var(--accent-cond-tint);color:var(--accent-cond);}
+  .clue-tag.coordinativa{background:var(--accent-coord-tint);color:var(--accent-coord);}
+
+  footer{
+    margin-top:38px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+    font-size:.78rem;
+    color:var(--ink-muted);
+  }
+  footer a{color:var(--ink-muted);}
+
+  .gate{
+    position:fixed;
+    inset:0;
+    background:rgba(8,12,16,.62);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+  }
+  .gate-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+    padding:28px;
+    max-width:380px;
+    width:100%;
+  }
+  .gate-card .eyebrow{margin-bottom:8px;}
+  .gate-card h2{
+    font-family:'Oswald', sans-serif;
+    font-size:1.2rem;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+    margin:0 0 8px;
+  }
+  .gate-card p{
+    font-size:.88rem;
+    color:var(--ink-muted);
+    line-height:1.5;
+    margin:0 0 16px;
+  }
+  .gate-card input{
+    width:100%;
+    font-family:'Public Sans', sans-serif;
+    font-size:.92rem;
+    padding:10px 12px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:var(--bg);
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .gate-card input:focus{outline:2px solid var(--accent-cond);outline-offset:1px;}
+  .gate-card input.error{border-color:var(--incorrect);}
+  .gate-card .gate-error{
+    font-size:.76rem;
+    color:var(--incorrect);
+    min-height:1.1em;
+    margin:0 0 10px;
+  }
+  .gate-card button{width:100%;}
+
+  .finish-row{display:flex;flex-direction:column;gap:8px;margin-top:2px;}
+  .pdf-status{
+    font-size:.8rem;
+    color:var(--ink-muted);
+    min-height:1.2em;
+    margin:0;
+  }
+  button.finish{
+    background:var(--accent-cond);
+    border-color:var(--accent-cond);
+    color:#fff;
+  }
+  button.finish:hover{opacity:.9;border-color:var(--accent-cond);}
+</style>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <p class="eyebrow">Antes de comenzar</p>
+    <h2>¿Cuál es tu nombre completo?</h2>
+    <p>Lo usaremos para identificar el PDF de resultados cuando termines la actividad.</p>
+    <input type="text" id="gateName" placeholder="Nombre completo" autocomplete="off" />
+    <p class="gate-error" id="gateError"></p>
+    <button class="primary" id="gateStart">Comenzar actividad</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Educación física · Capacidades del movimiento</p>
+    <h1>Crucigrama de Capacidades Físicas</h1>
+    <p class="lede">Diez palabras clave sobre las capacidades condicionales (fuerza, resistencia, velocidad, flexibilidad, destreza) y coordinativas (equilibrio, ritmo, orientación, reacción, acoplamiento). Haz clic en una pista, escribe la respuesta y desplázate con las flechas del teclado. Las respuestas van sin tildes ni espacios.</p>
+    <div class="legend">
+      <span class="dot"><span class="swatch cond"></span>Capacidad condicional</span>
+      <span class="dot"><span class="swatch coord"></span>Capacidad coordinativa</span>
+    </div>
+
+    <div class="idcard">
+      <div class="field">
+        <span class="field-label">Aprendiz</span>
+        <span class="field-value">Mario Alexander Perez Sandoval</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Técnico</span>
+        <span class="field-value">Procesamiento de Datos para Modelos de Inteligencia Artificial</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Ficha</span>
+        <span class="field-value">3533558</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <div class="puzzle-col">
+      <div class="board-frame">
+        <div class="grid" id="grid"></div>
+      </div>
+      <p class="board-note">Consejo: doble clic en una casilla para alternar entre horizontal y vertical.</p>
+      <div class="scoreboard">
+        <div class="tile"><span class="value" id="scoreWords">0/10</span><span class="label">Palabras</span></div>
+        <div class="tile"><span class="value" id="scoreLetters">0/83</span><span class="label">Letras</span></div>
+      </div>
+      <div class="controls">
+        <button class="primary" id="btnCheck">Verificar</button>
+        <button class="danger" id="btnReveal">Revelar todo</button>
+        <button id="btnReset">Reiniciar</button>
+      </div>
+      <div class="finish-row">
+        <button class="finish" id="btnFinish">Finalizar actividad y guardar PDF</button>
+        <p class="pdf-status" id="pdfStatus"></p>
+      </div>
+    </div>
+
+    <div class="clues">
+      <div class="clue-group">
+        <h2>Horizontales</h2>
+        <ul class="clue-list" id="acrossList"></ul>
+      </div>
+      <div class="clue-group">
+        <h2>Verticales</h2>
+        <ul class="clue-list" id="downList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Definiciones elaboradas a partir de la lectura <a href="https://concepto.de/capacidades-fisicas/" target="_blank" rel="noopener">concepto.de/capacidades-fisicas</a> y del material de clase sobre capacidades coordinativas y condicionales.<br>
+    Crucigrama desarrollado por Mario Alexander Perez Sandoval.
+  </footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/4.2.1/jspdf.umd.min.js"></script>
+<script>
+(function(){
+  const ASSIGNMENT = {
+    tecnico: "Procesamiento de Datos para Modelos de Inteligencia Artificial",
+    ficha: "3533558",
+    desarrollador: "Mario Alexander Perez Sandoval"
+  };
+
+  const WORDS = [
+    {num:1, word:"REACCION", orient:"A", row:0, col:3, cat:"coordinativa",
+      clue:"Capacidad coordinativa que permite responder con rapidez ante un estímulo visual, auditivo o táctil, como salir al sonido del silbato."},
+    {num:2, word:"ACOPLAMIENTO", orient:"D", row:0, col:5, cat:"coordinativa",
+      clue:"Capacidad coordinativa que permite combinar de forma armónica los movimientos de distintos segmentos del cuerpo, por ejemplo brazos y piernas al nadar."},
+    {num:3, word:"VELOCIDAD", orient:"A", row:2, col:2, cat:"condicional",
+      clue:"Capacidad condicional que permite recorrer una distancia o ejecutar un gesto en el menor tiempo posible."},
+    {num:4, word:"RESISTENCIA", orient:"D", row:4, col:10, cat:"condicional",
+      clue:"Capacidad condicional que permite sostener un esfuerzo durante un tiempo prolongado, retrasando la fatiga."},
+    {num:5, word:"FUERZA", orient:"A", row:5, col:8, cat:"condicional",
+      clue:"Capacidad condicional que permite vencer o soportar una carga mediante la tensión muscular."},
+    {num:6, word:"DESTREZA", orient:"D", row:6, col:2, cat:"condicional",
+      clue:"Capacidad para ejecutar movimientos con precisión, soltura y control en distintas situaciones."},
+    {num:7, word:"FLEXIBILIDAD", orient:"D", row:6, col:6, cat:"condicional",
+      clue:"Capacidad condicional que permite alcanzar gran amplitud de movimiento en las articulaciones sin lesionarse."},
+    {num:8, word:"ORIENTACION", orient:"D", row:6, col:9, cat:"coordinativa",
+      clue:"Capacidad coordinativa para ubicar y ajustar la posición del cuerpo respecto al espacio y al tiempo."},
+    {num:9, word:"EQUILIBRIO", orient:"A", row:7, col:2, cat:"coordinativa",
+      clue:"Capacidad coordinativa que permite mantener o recuperar una postura estable, en reposo o en movimiento."},
+    {num:10, word:"RITMO", orient:"A", row:9, col:0, cat:"coordinativa",
+      clue:"Capacidad coordinativa que permite ejecutar movimientos siguiendo un patrón temporal regular, al compás de la música."}
+  ];
+
+  // ---- build cell map ----
+  const cellMap = new Map(); // "r,c" -> {letter, number, words:[{wIdx,pos}]}
+  let maxR = 0, maxC = 0;
+
+  WORDS.forEach((w, wIdx) => {
+    for (let i = 0; i < w.word.length; i++) {
+      const r = w.row + (w.orient === "D" ? i : 0);
+      const c = w.col + (w.orient === "A" ? i : 0);
+      maxR = Math.max(maxR, r);
+      maxC = Math.max(maxC, c);
+      const key = r + "," + c;
+      if (!cellMap.has(key)) cellMap.set(key, {letter: w.word[i], words: []});
+      cellMap.get(key).words.push({wIdx, pos: i});
+      if (i === 0) cellMap.get(key).number = w.num;
+    }
+  });
+
+  const HEIGHT = maxR + 1, WIDTH = maxC + 1;
+  const totalLetters = cellMap.size;
+
+  // ---- render grid ----
+  const gridEl = document.getElementById("grid");
+  gridEl.style.gridTemplateColumns = `repeat(${WIDTH}, var(--cell))`;
+  gridEl.style.gridTemplateRows = `repeat(${HEIGHT}, var(--cell))`;
+
+  const inputByCell = new Map();
+
+  for (let r = 0; r < HEIGHT; r++) {
+    for (let c = 0; c < WIDTH; c++) {
+      const key = r + "," + c;
+      const data = cellMap.get(key);
+      const cellEl = document.createElement("div");
+      if (!data) {
+        cellEl.className = "cell blocked";
+      } else {
+        cellEl.className = "cell";
+        cellEl.dataset.key = key;
+        if (data.number) {
+          const num = document.createElement("span");
+          num.className = "num";
+          num.textContent = data.number;
+          cellEl.appendChild(num);
+        }
+        const input = document.createElement("input");
+        input.maxLength = 1;
+        input.autocomplete = "off";
+        input.setAttribute("aria-label", "casilla " + key);
+        cellEl.appendChild(input);
+        inputByCell.set(key, {el: input, cell: cellEl, data});
+      }
+      gridEl.appendChild(cellEl);
+    }
+  }
+
+  // ---- restore progress ----
+  let saved = {};
+  try {
+    saved = JSON.parse(localStorage.getItem("capfis-crossword-v1") || "{}");
+  } catch (e) { saved = {}; }
+
+  inputByCell.forEach((obj, key) => {
+    if (saved[key]) obj.el.value = saved[key];
+  });
+
+  function persist() {
+    try {
+      const out = {};
+      inputByCell.forEach((obj, key) => {
+        if (obj.el.value) out[key] = obj.el.value;
+      });
+      localStorage.setItem("capfis-crossword-v1", JSON.stringify(out));
+    } catch (e) { /* ignore quota / privacy-mode errors */ }
+  }
+
+  // ---- active word state ----
+  let activeWordIdx = null;
+
+  function wordCells(wIdx) {
+    const w = WORDS[wIdx];
+    const cells = [];
+    for (let i = 0; i < w.word.length; i++) {
+      const r = w.row + (w.orient === "D" ? i : 0);
+      const c = w.col + (w.orient === "A" ? i : 0);
+      cells.push(r + "," + c);
+    }
+    return cells;
+  }
+
+  function clearActive() {
+    inputByCell.forEach(obj => obj.cell.classList.remove("active-cond", "active-coord"));
+    document.querySelectorAll(".clue-item.active").forEach(li => li.classList.remove("active"));
+  }
+
+  function setActiveWord(wIdx, focusCellKey) {
+    clearActive();
+    activeWordIdx = wIdx;
+    const w = WORDS[wIdx];
+    const tintClass = w.cat === "condicional" ? "active-cond" : "active-coord";
+    wordCells(wIdx).forEach(key => {
+      const obj = inputByCell.get(key);
+      if (obj) obj.cell.classList.add(tintClass);
+    });
+    const li = document.querySelector(`.clue-item[data-widx="${wIdx}"]`);
+    if (li) {
+      li.classList.add("active");
+      li.scrollIntoView({block: "nearest"});
+    }
+    if (focusCellKey) {
+      const obj = inputByCell.get(focusCellKey);
+      if (obj) obj.el.focus();
+    }
+  }
+
+  function pickWordForCell(key, preferOrient) {
+    const data = cellMap.get(key);
+    if (!data) return null;
+    let choice = data.words.find(x => WORDS[x.wIdx].orient === preferOrient);
+    if (!choice) choice = data.words[0];
+    return choice;
+  }
+
+  // ---- input events ----
+  inputByCell.forEach((obj, key) => {
+    obj.el.addEventListener("focus", () => {
+      const preferOrient = (activeWordIdx !== null) ? WORDS[activeWordIdx].orient : "A";
+      const choice = pickWordForCell(key, preferOrient);
+      if (choice) setActiveWord(choice.wIdx);
+    });
+
+    obj.el.addEventListener("click", () => {
+      const data = cellMap.get(key);
+      if (data.words.length > 1) {
+        const currentOrient = (activeWordIdx !== null) ? WORDS[activeWordIdx].orient : null;
+        const isCurrentInCell = data.words.some(x => x.wIdx === activeWordIdx);
+        if (isCurrentInCell) {
+          const other = data.words.find(x => x.wIdx !== activeWordIdx);
+          if (other) setActiveWord(other.wIdx);
+        }
+      }
+    });
+
+    obj.el.addEventListener("input", () => {
+      let v = obj.el.value.toUpperCase().replace(/[^A-ZÑ]/g, "");
+      obj.el.value = v.slice(-1);
+      obj.el.classList.remove("correct", "incorrect");
+      persist();
+      updateScore();
+      if (obj.el.value && activeWordIdx !== null) {
+        const w = WORDS[activeWordIdx];
+        const cells = wordCells(activeWordIdx);
+        const idx = cells.indexOf(key);
+        if (idx > -1 && idx < cells.length - 1) {
+          const next = inputByCell.get(cells[idx + 1]);
+          if (next) next.el.focus();
+        }
+      }
+    });
+
+    obj.el.addEventListener("keydown", (e) => {
+      const [r, c] = key.split(",").map(Number);
+      let target = null;
+      if (e.key === "ArrowRight") target = (r) + "," + (c + 1);
+      else if (e.key === "ArrowLeft") target = (r) + "," + (c - 1);
+      else if (e.key === "ArrowDown") target = (r + 1) + "," + (c);
+      else if (e.key === "ArrowUp") target = (r - 1) + "," + (c);
+      else if (e.key === "Backspace" && !obj.el.value && activeWordIdx !== null) {
+        const cells = wordCells(activeWordIdx);
+        const idx = cells.indexOf(key);
+        if (idx > 0) {
+          const prev = inputByCell.get(cells[idx - 1]);
+          if (prev) { prev.el.focus(); prev.el.value = ""; persist(); updateScore(); }
+        }
+      }
+      if (target && inputByCell.has(target)) {
+        e.preventDefault();
+        const preferOrient = (e.key === "ArrowLeft" || e.key === "ArrowRight") ? "A" : "D";
+        const choice = pickWordForCell(target, preferOrient);
+        if (choice) setActiveWord(choice.wIdx, target);
+        else inputByCell.get(target).el.focus();
+      }
+    });
+  });
+
+  // ---- clue lists ----
+  const acrossList = document.getElementById("acrossList");
+  const downList = document.getElementById("downList");
+
+  WORDS.forEach((w, wIdx) => {
+    const li = document.createElement("li");
+    li.className = "clue-item";
+    li.dataset.widx = wIdx;
+    li.innerHTML = `<span class="clue-num">${w.num}</span>` +
+                    `<span class="clue-body">${w.clue}</span>` +
+                    `<span class="clue-tag ${w.cat}">${w.cat === "condicional" ? "Condicional" : "Coordinativa"}</span>`;
+    li.addEventListener("click", () => {
+      setActiveWord(wIdx, wordCells(wIdx)[0]);
+    });
+    (w.orient === "A" ? acrossList : downList).appendChild(li);
+  });
+
+  // ---- scoring ----
+  function updateScore() {
+    let filledLetters = 0;
+    inputByCell.forEach(obj => { if (obj.el.value) filledLetters++; });
+    let wordsComplete = 0;
+    WORDS.forEach((w, wIdx) => {
+      const cells = wordCells(wIdx);
+      const ok = cells.every(key => {
+        const obj = inputByCell.get(key);
+        return obj && obj.el.value === cellMap.get(key).letter;
+      });
+      if (ok) wordsComplete++;
+    });
+    document.getElementById("scoreWords").textContent = wordsComplete + "/10";
+    document.getElementById("scoreLetters").textContent = filledLetters + "/" + totalLetters;
+  }
+  updateScore();
+
+  // ---- controls ----
+  document.getElementById("btnCheck").addEventListener("click", () => {
+    inputByCell.forEach((obj, key) => {
+      if (!obj.el.value) return;
+      obj.el.classList.remove("correct", "incorrect");
+      obj.el.classList.add(obj.el.value === cellMap.get(key).letter ? "correct" : "incorrect");
+    });
+    updateScore();
+  });
+
+  document.getElementById("btnReset").addEventListener("click", () => {
+    inputByCell.forEach(obj => {
+      obj.el.value = "";
+      obj.el.classList.remove("correct", "incorrect");
+    });
+    persist();
+    updateScore();
+  });
+
+  const revealBtn = document.getElementById("btnReveal");
+  let confirmingReveal = false;
+  let confirmTimer = null;
+  revealBtn.addEventListener("click", () => {
+    if (!confirmingReveal) {
+      confirmingReveal = true;
+      revealBtn.classList.add("confirming");
+      revealBtn.textContent = "¿Seguro? Clic de nuevo";
+      confirmTimer = setTimeout(() => {
+        confirmingReveal = false;
+        revealBtn.classList.remove("confirming");
+        revealBtn.textContent = "Revelar todo";
+      }, 3000);
+      return;
+    }
+    clearTimeout(confirmTimer);
+    confirmingReveal = false;
+    revealBtn.classList.remove("confirming");
+    revealBtn.textContent = "Revelar todo";
+    inputByCell.forEach((obj, key) => {
+      obj.el.value = cellMap.get(key).letter;
+      obj.el.classList.remove("incorrect");
+      obj.el.classList.add("correct");
+    });
+    persist();
+    updateScore();
+  });
+
+  // start with first across word highlighted
+  setActiveWord(0);
+
+  // ---- name gate ----
+  const gate = document.getElementById("gate");
+  const gateName = document.getElementById("gateName");
+  const gateStart = document.getElementById("gateStart");
+  const gateError = document.getElementById("gateError");
+  let playerName = "";
+  try { playerName = localStorage.getItem("capfis-player-name") || ""; } catch (e) { /* ignore */ }
+  if (playerName) gateName.value = playerName;
+
+  function startActivity() {
+    const v = gateName.value.trim();
+    if (!v) {
+      gateName.classList.add("error");
+      gateError.textContent = "Escribe tu nombre completo para comenzar.";
+      gateName.focus();
+      return;
+    }
+    playerName = v;
+    try { localStorage.setItem("capfis-player-name", v); } catch (e) { /* ignore */ }
+    gate.remove();
+    if (activeWordIdx !== null) {
+      const firstKey = wordCells(activeWordIdx)[0];
+      const obj = inputByCell.get(firstKey);
+      if (obj) obj.el.focus();
+    }
+  }
+  gateStart.addEventListener("click", startActivity);
+  gateName.addEventListener("keydown", (e) => { if (e.key === "Enter") startActivity(); });
+  gateName.addEventListener("input", () => {
+    gateName.classList.remove("error");
+    gateError.textContent = "";
+  });
+
+  // ---- finalize + PDF ----
+  const finishBtn = document.getElementById("btnFinish");
+  const pdfStatus = document.getElementById("pdfStatus");
+
+  function slugify(str) {
+    const stripAccents = str.toLowerCase().normalize("NFD").split("").filter(ch => {
+      const code = ch.charCodeAt(0);
+      return !(code >= 0x0300 && code <= 0x036f);
+    }).join("");
+    return stripAccents.replace(/[^a-z0-9]+/g, "-").replace(/(^-+|-+$)/g, "") || "aprendiz";
+  }
+
+  function buildResultsPdf() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: "pt", format: "letter" });
+    const inkRGB = [22, 34, 46];
+    const correctRGB = [46, 125, 50];
+    const incorrectRGB = [192, 57, 43];
+    const margin = 40;
+    let y = 56;
+
+    doc.setTextColor(...inkRGB);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(17);
+    doc.text("Crucigrama de Capacidades Físicas", margin, y);
+    y += 18;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.text("Reporte de resultados de la actividad", margin, y);
+    y += 26;
+
+    const details = [
+      ["Nombre completo:", playerName],
+      ["Técnico:", ASSIGNMENT.tecnico],
+      ["Ficha:", ASSIGNMENT.ficha],
+      ["Fecha:", new Date().toLocaleString("es-CO")],
+      ["Desarrollado por:", ASSIGNMENT.desarrollador]
+    ];
+    doc.setFontSize(10);
+    details.forEach(([label, value]) => {
+      doc.setFont("helvetica", "bold");
+      doc.text(label, margin, y);
+      doc.setFont("helvetica", "normal");
+      doc.text(String(value), margin + 130, y, { maxWidth: 370 });
+      y += 16;
+    });
+
+    y += 6;
+    const wordsComplete = WORDS.filter((w, wIdx) =>
+      wordCells(wIdx).every(key => {
+        const obj = inputByCell.get(key);
+        return obj && obj.el.value === cellMap.get(key).letter;
+      })
+    ).length;
+    let filledLetters = 0;
+    inputByCell.forEach(obj => { if (obj.el.value) filledLetters++; });
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text(`Puntaje: ${wordsComplete}/10 palabras correctas · ${filledLetters}/${totalLetters} letras completadas`, margin, y);
+    y += 22;
+
+    const cols = { num: margin + 6, word: margin + 34, cat: margin + 190, entered: margin + 300, ok: margin + 430 };
+    doc.setFillColor(...inkRGB);
+    doc.rect(margin, y - 12, 520, 18, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "bold");
+    doc.text("N°", cols.num, y);
+    doc.text("Palabra clave", cols.word, y);
+    doc.text("Tipo", cols.cat, y);
+    doc.text("Respuesta ingresada", cols.entered, y);
+    doc.text("¿Correcta?", cols.ok, y);
+    y += 18;
+
+    doc.setFont("helvetica", "normal");
+    WORDS.forEach((w, wIdx) => {
+      if (y > 730) { doc.addPage(); y = 56; }
+      const cells = wordCells(wIdx);
+      const entered = cells.map(k => (inputByCell.get(k).el.value || "_")).join("");
+      const isCorrect = cells.every(k => inputByCell.get(k).el.value === cellMap.get(k).letter);
+      doc.setTextColor(...inkRGB);
+      doc.text(String(w.num), cols.num, y);
+      doc.text(w.word, cols.word, y);
+      doc.text(w.cat === "condicional" ? "Condicional" : "Coordinativa", cols.cat, y);
+      doc.text(entered, cols.entered, y);
+      doc.setTextColor(...(isCorrect ? correctRGB : incorrectRGB));
+      doc.text(isCorrect ? "Sí" : "No", cols.ok, y);
+      y += 17;
+    });
+
+    return doc.output("blob");
+  }
+
+  async function finishActivity() {
+    inputByCell.forEach((obj, key) => {
+      obj.el.classList.remove("correct", "incorrect");
+      if (obj.el.value) obj.el.classList.add(obj.el.value === cellMap.get(key).letter ? "correct" : "incorrect");
+    });
+    updateScore();
+
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      pdfStatus.textContent = "No se pudo cargar el generador de PDF. Recarga la página e inténtalo de nuevo.";
+      return;
+    }
+
+    pdfStatus.textContent = "Generando PDF…";
+    let blob;
+    try {
+      blob = buildResultsPdf();
+    } catch (e) {
+      pdfStatus.textContent = "Ocurrió un error generando el PDF.";
+      return;
+    }
+
+    const filename = `crucigrama-capacidades-fisicas-${slugify(playerName)}.pdf`;
+    try {
+      if (!window.claude || !window.claude.use) throw { code: "unavailable" };
+      const downloads = await window.claude.use("downloads");
+      if (!downloads) throw { code: "unavailable" };
+      const result = await downloads.save({ filename, data: blob });
+      pdfStatus.textContent = result.status === "saved"
+        ? "PDF guardado correctamente."
+        : "PDF entregado al destino elegido.";
+    } catch (err) {
+      if (err && err.code === "declined") {
+        pdfStatus.textContent = "Guardado cancelado.";
+      } else if (err && err.code === "rate_limited") {
+        pdfStatus.textContent = "Ya hay una solicitud de guardado en curso, espera un momento e inténtalo de nuevo.";
+      } else {
+        pdfStatus.textContent = "No se pudo guardar el PDF automáticamente aquí. Usa Ctrl+P (Cmd+P en Mac) e imprime como PDF.";
+      }
+    }
+  }
+
+  finishBtn.addEventListener("click", finishActivity);
+})();
+</script>
