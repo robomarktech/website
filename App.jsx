@@ -21,7 +21,8 @@ import {
 } from "lucide-react";
 
 
-const phoneNumber = "573103267918";
+const personalPhoneNumber = "573103267918";
+const businessPhoneNumber = "17868210626";
 
 const connectMessage =
   "Hola Mario, soy contacto de tu número de Estados Unidos y quiero seguir en contacto contigo.";
@@ -29,11 +30,11 @@ const connectMessage =
 const advertisingMessage =
   "Hola, vi un anuncio de ROBOMARK TECH en Facebook o Instagram y me gustaría recibir información sobre sus servicios y conocer cómo pueden ayudar a mi empresa.";
 
-const connectWhatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+const connectWhatsappUrl = `https://wa.me/${personalPhoneNumber}?text=${encodeURIComponent(
   connectMessage
 )}`;
 
-const advertisingWhatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+const advertisingWhatsappUrl = `https://wa.me/${businessPhoneNumber}?text=${encodeURIComponent(
   advertisingMessage
 )}`;
 
@@ -893,7 +894,7 @@ function TrainingRegionPage({ region }) {
           Escríbenos para recibir información sobre modalidad, fechas y cupos.
         </p>
         <a
-          href={`https://wa.me/${phoneNumber}?text=${whatsappText}`}
+          href={`https://wa.me/${businessPhoneNumber}?text=${whatsappText}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-6 py-3 font-bold hover:bg-emerald-400"
@@ -948,7 +949,7 @@ function TrainingConfirmationPage() {
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <a
-            href={`https://wa.me/${phoneNumber}?text=${confirmationMessage}`}
+            href={`https://wa.me/${businessPhoneNumber}?text=${confirmationMessage}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-3 font-bold hover:bg-emerald-400"
@@ -969,6 +970,721 @@ function TrainingConfirmationPage() {
         la aprobación de la transacción.
       </p>
     </TrainingShell>
+  );
+}
+
+const digitalBusinessWeeks = [
+  {
+    week: "Semana 1",
+    title: "Tu negocio y cliente ideal",
+    topics: [
+      "Diagnóstico de tu presencia digital",
+      "Cliente ideal y propuesta de valor",
+      "Mensaje comercial creado con apoyo de IA",
+    ],
+  },
+  {
+    week: "Semana 2",
+    title: "Identidad de marca",
+    topics: [
+      "Personalidad, colores y tipografías",
+      "Logotipo e identidad visual básica",
+      "Biografía, eslogan y presentación profesional",
+    ],
+  },
+  {
+    week: "Semana 3",
+    title: "Redes y WhatsApp Business",
+    topics: [
+      "Optimización de Instagram y Facebook",
+      "Perfil comercial y canales de contacto",
+      "Catálogo, respuestas rápidas y atención inicial",
+    ],
+  },
+  {
+    week: "Semana 4",
+    title: "Contenido con inteligencia artificial",
+    topics: [
+      "Prompts para ideas y textos comerciales",
+      "Diseño de imágenes y publicaciones",
+      "Guiones y videos cortos para redes sociales",
+    ],
+  },
+  {
+    week: "Semana 5",
+    title: "Presencia web",
+    topics: [
+      "Estructura de una landing page efectiva",
+      "Servicios, confianza y llamadas a la acción",
+      "Prototipo adaptable a teléfonos celulares",
+    ],
+  },
+  {
+    week: "Semana 6",
+    title: "Lanzamiento de tu negocio",
+    topics: [
+      "Calendario de contenido para 30 días",
+      "Estrategia inicial para atraer clientes",
+      "Presentación y evaluación del proyecto final",
+    ],
+  },
+];
+
+const digitalBusinessOutcomes = [
+  "Mensaje y propuesta de valor definidos",
+  "Identidad visual básica para tu negocio",
+  "Redes sociales organizadas profesionalmente",
+  "WhatsApp Business listo para atender clientes",
+  "Publicaciones y videos creados con IA",
+  "Prototipo de landing page para tu negocio",
+  "Calendario de contenido para 30 días",
+  "Estrategia inicial de lanzamiento digital",
+];
+
+function DigitalBusinessCoursePage() {
+  const courseWhatsappMessage = encodeURIComponent(
+    "Hola, quiero reservar uno de los primeros 10 cupos del programa Lanza tu negocio digital con IA por USD 249."
+  );
+  const courseWhatsappUrl = `https://wa.me/${businessPhoneNumber}?text=${courseWhatsappMessage}`;
+  const personalizedWhatsappMessage = encodeURIComponent(
+    "Hola, quiero recibir información sobre la capacitación personalizada de ROBOMARKTECH."
+  );
+  const personalizedWhatsappUrl = `https://wa.me/${businessPhoneNumber}?text=${personalizedWhatsappMessage}`;
+
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = "Lanza tu negocio digital con IA | ROBOMARKTECH";
+    return () => {
+      document.title = previousTitle;
+    };
+  }, []);
+
+  return (
+    <main className="min-h-screen overflow-hidden bg-[#07111f] text-white">
+      <div className="fixed inset-0 -z-10 bg-[#07111f]" />
+
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#07111f]/90 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 md:px-8">
+          <a href="/" className="text-lg font-black tracking-wide md:text-xl">
+            ROBOMARK<span className="text-cyan-400">TECH</span>
+          </a>
+          <a
+            href={courseWhatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-emerald-400 md:px-6"
+          >
+            <MessageCircle className="h-4 w-4" />
+            Reservar mi cupo
+          </a>
+        </div>
+      </header>
+
+      <section className="relative">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute left-[-8rem] top-10 h-80 w-80 rounded-full bg-cyan-500/15 blur-[110px]" />
+          <div className="absolute right-[-6rem] top-20 h-96 w-96 rounded-full bg-blue-600/15 blur-[130px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.09),transparent_35%)]" />
+        </div>
+
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 pt-16 md:px-8 md:pb-28 md:pt-24 lg:grid-cols-[1.15fr_.85fr]">
+          <div>
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-cyan-300 sm:text-sm">
+              <Sparkles className="h-4 w-4" /> Programa práctico para principiantes
+            </div>
+
+            <h1 className="max-w-4xl text-4xl font-black leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
+              Lanza tu negocio digital con
+              <span className="block bg-gradient-to-r from-cyan-300 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                inteligencia artificial
+              </span>
+            </h1>
+
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl">
+              Crea tu marca, organiza tus redes sociales, produce contenido y
+              desarrolla la presencia web de tu negocio, aunque empieces desde cero.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3 text-sm font-semibold text-slate-200">
+              {["6 semanas", "12 clases en vivo", "24 horas prácticas", "Máximo 12 participantes"].map((item) => (
+                <span key={item} className="rounded-full border border-white/10 bg-white/5 px-4 py-2">
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <a
+                href={courseWhatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-cyan-400 to-blue-600 px-7 py-4 text-base font-black text-[#04101c] shadow-[0_0_35px_rgba(34,211,238,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_0_45px_rgba(34,211,238,0.4)]"
+              >
+                Quiero reservar mi cupo <span aria-hidden="true">→</span>
+              </a>
+              <p className="text-center text-sm text-slate-400 sm:text-left">
+                No necesitas experiencia previa.
+              </p>
+            </div>
+          </div>
+
+          <aside className="relative rounded-[2rem] border border-cyan-400/30 bg-gradient-to-br from-[#0d1b2a] to-[#10263c] p-6 shadow-2xl shadow-cyan-950/40 md:p-8">
+            <div className="absolute -right-3 -top-3 rounded-full bg-amber-300 px-4 py-2 text-xs font-black uppercase tracking-wide text-slate-950 shadow-lg">
+              Solo primeros 10
+            </div>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-300">
+              Precio fundador
+            </p>
+            <div className="mt-4 flex items-end gap-3">
+              <span className="text-5xl font-black md:text-6xl">USD 249</span>
+            </div>
+            <p className="mt-2 text-sm text-slate-400">
+              Precio regular posterior: <span className="line-through">USD 399</span>
+            </p>
+
+            <div className="my-7 h-px bg-white/10" />
+
+            <div className="rounded-2xl border border-white/10 bg-black/20 p-5">
+              <p className="font-bold text-white">También puedes pagar en 2 cuotas</p>
+              <p className="mt-2 text-3xl font-black text-cyan-300">2 × USD 135</p>
+              <p className="mt-1 text-xs text-slate-400">Total financiado: USD 270</p>
+            </div>
+
+            <ul className="mt-7 space-y-3 text-sm text-slate-200">
+              {[
+                "Clases virtuales y en vivo",
+                "Ejercicios aplicados a tu propio negocio",
+                "Acompañamiento en un grupo reducido",
+                "Proyecto digital listo para lanzar",
+              ].map((item) => (
+                <li key={item} className="flex gap-3">
+                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={courseWhatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-emerald-500 px-6 py-4 font-black transition hover:bg-emerald-400"
+            >
+              <MessageCircle className="h-5 w-5" /> Reservar por WhatsApp
+            </a>
+            <p className="mt-4 text-center text-xs leading-5 text-slate-400">
+              Promoción válida para los primeros 10 inscritos.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-white/[0.025] py-20">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400">Hecho para ti</p>
+            <h2 className="mt-3 text-3xl font-black md:text-5xl">
+              Tu negocio puede ser excelente. Ahora necesitan encontrarlo.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-slate-300">
+              Este programa está dirigido a emprendedores y pequeños negocios
+              hispanos en Estados Unidos que desean crecer digitalmente sin depender
+              de conocimientos técnicos avanzados.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {[
+              ["Tienes una idea", "Quieres convertirla en una marca clara, profesional y lista para presentarse."],
+              ["Ya tienes un negocio", "Necesitas mejorar tus redes, contenido y canales para recibir clientes."],
+              ["La tecnología te abruma", "Quieres aprender paso a paso y aplicar la IA con acompañamiento."],
+            ].map(([title, description]) => (
+              <article key={title} className="rounded-3xl border border-white/10 bg-[#0d1b2a] p-7">
+                <Zap className="h-7 w-7 text-cyan-400" />
+                <h3 className="mt-5 text-xl font-black">{title}</h3>
+                <p className="mt-3 leading-7 text-slate-400">{description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-gradient-to-br from-[#0b1928] to-[#07111f] py-20">
+        <div className="mx-auto max-w-6xl px-5 md:px-8">
+          <div className="grid items-center gap-10 rounded-[2rem] border border-cyan-400/25 bg-white/[0.035] p-7 md:grid-cols-[1.15fr_.85fr] md:p-12">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400">
+                Opción individual
+              </p>
+              <h2 className="mt-3 text-3xl font-black md:text-5xl">
+                Capacitación personalizada para tu negocio
+              </h2>
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+                Si necesitas avanzar a tu propio ritmo, diseñamos un proceso de
+                formación adaptado a tu negocio, experiencia, objetivos y
+                disponibilidad.
+              </p>
+              <p className="mt-4 text-sm leading-6 text-slate-400">
+                La duración, el contenido y el precio se definen después de una
+                evaluación inicial. Esta modalidad no hace parte de la promoción
+                grupal ni del premio al mejor proyecto.
+              </p>
+            </div>
+
+            <div className="rounded-3xl border border-white/10 bg-black/20 p-6 md:p-8">
+              <ul className="space-y-4 text-sm text-slate-200">
+                {[
+                  "Sesiones individuales en vivo",
+                  "Horario flexible",
+                  "Contenido adaptado a tu negocio",
+                  "Acompañamiento directo",
+                  "Aplicación práctica sobre tu marca y procesos",
+                ].map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-400" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={personalizedWhatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-7 flex w-full items-center justify-center gap-2 rounded-full border border-cyan-400/50 bg-cyan-400/10 px-6 py-4 font-black text-cyan-200 transition hover:bg-cyan-400/20"
+              >
+                <MessageCircle className="h-5 w-5" /> Solicitar capacitación personalizada
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <div className="max-w-3xl">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400">Resultados concretos</p>
+            <h2 className="mt-3 text-3xl font-black md:text-5xl">No solo aprenderás: construirás.</h2>
+            <p className="mt-5 text-lg leading-8 text-slate-300">
+              Cada ejercicio se aplicará directamente a tu negocio o idea para que
+              termines con una base digital que puedas utilizar.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {digitalBusinessOutcomes.map((outcome) => (
+              <div key={outcome} className="flex gap-3 rounded-2xl border border-cyan-900/70 bg-[#0b1928] p-5">
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-cyan-400" />
+                <p className="font-semibold leading-6 text-slate-200">{outcome}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-[#0a1725] py-20 md:py-28">
+        <div className="mx-auto max-w-7xl px-5 md:px-8">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400">Programa de 6 semanas</p>
+            <h2 className="mt-3 text-3xl font-black md:text-5xl">De la idea al lanzamiento digital</h2>
+            <p className="mt-5 text-lg leading-8 text-slate-300">
+              Dos sesiones en vivo por semana, con explicaciones claras, demostraciones y práctica guiada.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-5 lg:grid-cols-2">
+            {digitalBusinessWeeks.map((item, index) => (
+              <article key={item.week} className="rounded-3xl border border-white/10 bg-[#07111f] p-6 md:p-8">
+                <div className="flex items-start gap-5">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-cyan-400/10 text-lg font-black text-cyan-300">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-400">{item.week}</p>
+                    <h3 className="mt-1 text-xl font-black md:text-2xl">{item.title}</h3>
+                  </div>
+                </div>
+                <ul className="mt-6 space-y-3 border-t border-white/10 pt-5">
+                  {item.topics.map((topic) => (
+                    <li key={topic} className="flex gap-3 text-sm leading-6 text-slate-300">
+                      <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-400" />
+                      {topic}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 md:py-28">
+        <div className="mx-auto max-w-5xl px-5 md:px-8">
+          <div className="rounded-[2rem] border border-amber-300/40 bg-gradient-to-br from-amber-300/10 via-[#10263c] to-[#07111f] p-7 md:p-12">
+            <div className="grid items-center gap-8 md:grid-cols-[.7fr_1.3fr]">
+              <div className="flex justify-center">
+                <div className="flex h-40 w-40 items-center justify-center rounded-full border border-amber-300/30 bg-amber-300/10 shadow-[0_0_70px_rgba(252,211,77,0.14)]">
+                  <span className="text-7xl" aria-hidden="true">🏆</span>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm font-bold uppercase tracking-[0.2em] text-amber-300">Premio al mejor proyecto</p>
+                <h2 className="mt-3 text-3xl font-black md:text-4xl">Tu negocio podría salir publicado.</h2>
+                <p className="mt-5 leading-8 text-slate-300">
+                  Al finalizar, ROBOMARKTECH premiará el mejor proyecto con dominio
+                  .com y hosting durante un año, más una landing page profesional
+                  diseñada con inteligencia artificial.
+                </p>
+                <p className="mt-4 text-sm leading-6 text-slate-400">
+                  La selección se realizará según el avance, la aplicación práctica,
+                  la claridad del negocio y la presentación final.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-white/[0.025] py-20">
+        <div className="mx-auto max-w-4xl px-5 md:px-8">
+          <div className="text-center">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400">Preguntas frecuentes</p>
+            <h2 className="mt-3 text-3xl font-black md:text-5xl">Antes de reservar</h2>
+          </div>
+
+          <div className="mt-12 space-y-4">
+            {[
+              ["¿Necesito experiencia en tecnología o inteligencia artificial?", "No. El programa comienza desde cero y está diseñado para personas sin experiencia previa."],
+              ["¿Debo tener un negocio funcionando?", "No. Puedes trabajar sobre un negocio existente o desarrollar una idea que quieras lanzar."],
+              ["¿Las clases son grabadas?", "Las 12 sesiones son virtuales y en vivo. Las condiciones de acceso a grabaciones se informarán antes del inicio."],
+              ["¿Cómo funciona el pago en cuotas?", "Puedes reservar con la primera cuota de USD 135. La segunda cuota de USD 135 deberá pagarse antes de la tercera semana del programa."],
+              ["¿El precio de USD 249 es para todos?", "No. Es un precio fundador exclusivo para los primeros 10 participantes inscritos. Después aplicará el precio regular de USD 399."],
+              ["¿Cómo reservo mi cupo?", "Escríbenos por WhatsApp. Confirmaremos disponibilidad, forma de pago y los datos necesarios para completar tu inscripción."],
+            ].map(([question, answer]) => (
+              <details key={question} className="group rounded-2xl border border-white/10 bg-[#0d1b2a] p-5 open:border-cyan-500/30">
+                <summary className="cursor-pointer list-none pr-6 font-bold text-white marker:hidden">
+                  {question}
+                </summary>
+                <p className="mt-4 border-t border-white/10 pt-4 leading-7 text-slate-400">{answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative py-20 md:py-28">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.12),transparent_45%)]" />
+        <div className="mx-auto max-w-4xl px-5 text-center md:px-8">
+          <TrendingUp className="mx-auto h-10 w-10 text-cyan-400" />
+          <h2 className="mt-6 text-4xl font-black md:text-6xl">Tu negocio merece ser encontrado.</h2>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+            Da el primer paso y construye una presencia digital profesional con acompañamiento y herramientas de inteligencia artificial.
+          </p>
+          <a
+            href={courseWhatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-9 inline-flex items-center justify-center gap-3 rounded-full bg-emerald-500 px-8 py-4 text-lg font-black transition hover:-translate-y-0.5 hover:bg-emerald-400"
+          >
+            <MessageCircle className="h-6 w-6" /> Reservar mi cupo fundador
+          </a>
+          <p className="mt-5 text-sm text-slate-400">WhatsApp: +1 786-821-0626</p>
+        </div>
+      </section>
+
+      <footer className="border-t border-white/10 px-5 py-8 text-center text-sm text-slate-500">
+        <p>© 2026 ROBOMARKTECH · Inteligencia artificial, estrategia y tecnología.</p>
+        <div className="mt-3 flex justify-center gap-5">
+          <a href="/politica-de-privacidad" className="hover:text-cyan-300">Política de privacidad</a>
+          <a href="/" className="hover:text-cyan-300">Página principal</a>
+        </div>
+      </footer>
+
+      <a
+        href={courseWhatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Reservar cupo por WhatsApp"
+        className="fixed bottom-4 left-4 right-4 z-50 flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-3.5 font-black text-white shadow-2xl md:hidden"
+      >
+        <MessageCircle className="h-5 w-5" /> Reservar mi cupo
+      </a>
+    </main>
+  );
+}
+
+const privacyContactEmail = "contacto@robomarktech.com";
+
+function LegalPage({ title, description, children }) {
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = `${title} | ROBOMARKTECH`;
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [title]);
+
+  return (
+    <main className="min-h-screen bg-[#07111f] px-5 py-10 text-white md:px-8 md:py-16">
+      <article className="mx-auto max-w-4xl">
+        <a
+          href="/"
+          className="mb-8 inline-flex text-sm font-semibold text-cyan-400 hover:text-cyan-300"
+        >
+          ← Volver a ROBOMARKTECH
+        </a>
+
+        <header className="mb-10 border-b border-cyan-900 pb-8">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.22em] text-cyan-400">
+            ROBOMARKTECH
+          </p>
+          <h1 className="mb-4 text-4xl font-black md:text-5xl">{title}</h1>
+          <p className="max-w-3xl text-lg leading-8 text-gray-300">{description}</p>
+          <p className="mt-4 text-sm text-gray-400">
+            Última actualización: 8 de septiembre de 2026
+          </p>
+        </header>
+
+        <div className="space-y-8 leading-7 text-gray-300">{children}</div>
+
+        <footer className="mt-12 border-t border-cyan-900 pt-7 text-sm text-gray-400">
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
+            <a href="/" className="text-cyan-400 hover:text-cyan-300">
+              Inicio
+            </a>
+            <a
+              href="/politica-de-privacidad"
+              className="text-cyan-400 hover:text-cyan-300"
+            >
+              Política de privacidad
+            </a>
+            <a
+              href="/eliminacion-de-datos"
+              className="text-cyan-400 hover:text-cyan-300"
+            >
+              Eliminación de datos
+            </a>
+          </div>
+        </footer>
+      </article>
+    </main>
+  );
+}
+
+function LegalSection({ title, children }) {
+  return (
+    <section className="rounded-2xl border border-cyan-900 bg-[#0d1b2a] p-6 md:p-8">
+      <h2 className="mb-4 text-2xl font-bold text-white">{title}</h2>
+      {children}
+    </section>
+  );
+}
+
+function PrivacyPolicyPage() {
+  return (
+    <LegalPage
+      title="Política de privacidad"
+      description="Esta política explica cómo ROBOMARKTECH recopila, utiliza, conserva y protege la información relacionada con sus visitantes, prospectos y clientes."
+    >
+      <LegalSection title="1. Responsable del tratamiento">
+        <p>
+          ROBOMARKTECH es responsable del tratamiento de la información descrita
+          en esta política. Para consultas sobre privacidad, puedes escribir a{" "}
+          <a
+            href={`mailto:${privacyContactEmail}`}
+            className="font-semibold text-cyan-400 hover:text-cyan-300"
+          >
+            {privacyContactEmail}
+          </a>
+          .
+        </p>
+      </LegalSection>
+
+      <LegalSection title="2. Información que podemos recopilar">
+        <ul className="list-disc space-y-2 pl-6">
+          <li>Nombre, teléfono, correo electrónico, país y ciudad.</li>
+          <li>Información sobre tu empresa, proyecto, necesidades e intereses.</li>
+          <li>Mensajes y archivos que decidas compartir por WhatsApp, formularios o correo.</li>
+          <li>Datos de inscripción, atención, seguimiento y estado de pago.</li>
+          <li>
+            Datos técnicos básicos del sitio, como dirección IP, navegador,
+            dispositivo, páginas visitadas y registros de seguridad.
+          </li>
+        </ul>
+        <p className="mt-4">
+          ROBOMARKTECH no solicita ni almacena directamente números completos de
+          tarjetas, claves bancarias ni códigos de seguridad. Los pagos son
+          procesados por las plataformas de pago seleccionadas por el usuario.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="3. Cómo obtenemos la información">
+        <p>
+          Podemos recibirla cuando visitas nuestro sitio, completas un formulario,
+          te inscribes en una capacitación, realizas una compra o te comunicas con
+          nosotros por WhatsApp, correo electrónico u otro canal autorizado.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="4. Para qué utilizamos los datos">
+        <ul className="list-disc space-y-2 pl-6">
+          <li>Responder consultas y brindar atención comercial o técnica.</li>
+          <li>Identificar necesidades y recomendar servicios o capacitaciones.</li>
+          <li>Gestionar registros, cupos, pagos, soporte y seguimiento.</li>
+          <li>Enviar información solicitada y comunicaciones relacionadas con el servicio.</li>
+          <li>Automatizar y mejorar la atención mediante herramientas tecnológicas.</li>
+          <li>Prevenir fraude, abuso y problemas de seguridad.</li>
+          <li>Cumplir obligaciones legales y atender solicitudes de autoridades competentes.</li>
+        </ul>
+      </LegalSection>
+
+      <LegalSection title="5. Automatización e inteligencia artificial">
+        <p>
+          Algunos mensajes pueden ser procesados mediante flujos automatizados y
+          herramientas de inteligencia artificial para clasificar solicitudes,
+          mantener el contexto de la conversación y preparar respuestas. Si una
+          consulta requiere revisión humana, puede ser transferida a un integrante
+          autorizado de ROBOMARKTECH. No debes enviar información sensible que no
+          sea necesaria para atender tu solicitud.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="6. Proveedores y transferencias de información">
+        <p>
+          Podemos utilizar proveedores necesarios para operar el servicio, entre
+          ellos Meta y WhatsApp para mensajería, OpenAI para funciones de
+          inteligencia artificial, Amazon Web Services y n8n para infraestructura
+          y automatización, proveedores de alojamiento web y plataformas de pago.
+          Estos servicios pueden procesar información en otros países y se rigen
+          también por sus propias políticas y condiciones.
+        </p>
+        <p className="mt-4">
+          No vendemos datos personales. Solo compartimos la información necesaria
+          para prestar el servicio, cumplir una obligación legal, proteger derechos
+          o cuando exista autorización del titular.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="7. Conservación y seguridad">
+        <p>
+          Conservamos la información durante el tiempo razonablemente necesario
+          para atender la finalidad para la cual fue recopilada y cumplir
+          obligaciones legales, contables, contractuales o de seguridad. Aplicamos
+          medidas técnicas y organizativas razonables, aunque ningún sistema puede
+          garantizar seguridad absoluta.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="8. Tus derechos y eliminación de datos">
+        <p>
+          Puedes solicitar acceso, corrección, actualización, oposición o
+          eliminación de tus datos, según corresponda bajo la legislación
+          aplicable. Consulta las instrucciones en{" "}
+          <a
+            href="/eliminacion-de-datos"
+            className="font-semibold text-cyan-400 hover:text-cyan-300"
+          >
+            nuestra página de eliminación de datos
+          </a>
+          . También puedes retirar tu autorización para comunicaciones no
+          esenciales.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="9. Menores de edad">
+        <p>
+          Nuestros servicios comerciales están dirigidos principalmente a personas
+          adultas y organizaciones. No recopilamos deliberadamente información de
+          menores sin la autorización correspondiente. Si consideras que recibimos
+          esos datos indebidamente, escríbenos para revisarlos y eliminarlos.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="10. Cambios a esta política">
+        <p>
+          Podemos actualizar esta política cuando cambien nuestros servicios o las
+          obligaciones aplicables. La versión vigente se publicará en esta página
+          con su fecha de actualización.
+        </p>
+      </LegalSection>
+    </LegalPage>
+  );
+}
+
+function DataDeletionPage() {
+  return (
+    <LegalPage
+      title="Eliminación de datos de usuario"
+      description="Puedes solicitar la eliminación de los datos personales que ROBOMARKTECH controla siguiendo estas instrucciones."
+    >
+      <LegalSection title="1. Envía tu solicitud">
+        <p>
+          Escribe a{" "}
+          <a
+            href={`mailto:${privacyContactEmail}?subject=Eliminación%20de%20datos%20-%20WhatsApp`}
+            className="font-semibold text-cyan-400 hover:text-cyan-300"
+          >
+            {privacyContactEmail}
+          </a>{" "}
+          con el asunto <strong className="text-white">“Eliminación de datos – WhatsApp”</strong>.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="2. Información necesaria">
+        <p>Incluye únicamente los datos necesarios para localizar tu registro:</p>
+        <ul className="mt-4 list-disc space-y-2 pl-6">
+          <li>Nombre completo.</li>
+          <li>Número de WhatsApp con código de país o correo utilizado.</li>
+          <li>Descripción breve de la información que deseas eliminar.</li>
+        </ul>
+        <p className="mt-4">
+          Podemos solicitar una verificación razonable de identidad para evitar que
+          otra persona elimine tus datos sin autorización. No envíes contraseñas,
+          códigos de acceso ni información bancaria.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="3. Revisión y eliminación">
+        <p>
+          Confirmaremos la recepción y atenderemos la solicitud dentro del plazo
+          exigido por la legislación aplicable. Cuando corresponda, eliminaremos o
+          anonimizaremos los datos bajo nuestro control y enviaremos una confirmación
+          al canal verificado del solicitante.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="4. Excepciones de conservación">
+        <p>
+          Algunos registros podrán conservarse cuando sean necesarios para cumplir
+          obligaciones legales, contables o fiscales, resolver disputas, prevenir
+          fraude, proteger derechos o demostrar transacciones. En esos casos se
+          limitará su uso y se eliminarán cuando finalice la obligación aplicable.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="5. Servicios de terceros">
+        <p>
+          Esta solicitud cubre los datos controlados por ROBOMARKTECH. Meta,
+          WhatsApp, proveedores de pago y otros servicios pueden conservar datos
+          independientes conforme a sus propias políticas. Para eliminar esos datos
+          también puede ser necesario utilizar las herramientas o canales de cada
+          proveedor.
+        </p>
+      </LegalSection>
+
+      <LegalSection title="6. Contacto">
+        <p>
+          Si tienes dudas sobre el proceso, escribe a{" "}
+          <a
+            href={`mailto:${privacyContactEmail}`}
+            className="font-semibold text-cyan-400 hover:text-cyan-300"
+          >
+            {privacyContactEmail}
+          </a>
+          .
+        </p>
+      </LegalSection>
+    </LegalPage>
   );
 }
 
@@ -1018,6 +1734,18 @@ function App() {
         <Route
           path="/capacitacion-ia/confirmacion"
           element={<TrainingConfirmationPage />}
+        />
+        <Route
+          path="/curso-negocio-digital"
+          element={<DigitalBusinessCoursePage />}
+        />
+        <Route
+          path="/politica-de-privacidad"
+          element={<PrivacyPolicyPage />}
+        />
+        <Route
+          path="/eliminacion-de-datos"
+          element={<DataDeletionPage />}
         />
 
         <Route path="*" element={<MainWebsite />} />
